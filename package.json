@@ -1,0 +1,58 @@
+{
+  "name": "port-active-checker",
+  "version": "0.1.0",
+  "description": "Windows desktop checker untuk port aktif dan port development yang siap dipakai.",
+  "main": "dist-electron/main/main.js",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "typecheck": "tsc -p tsconfig.renderer.json --noEmit && tsc -p tsconfig.electron.json --noEmit",
+    "build:renderer": "vite build",
+    "build:electron": "tsc -p tsconfig.electron.json",
+    "build": "npm run typecheck && npm run build:electron && npm run build:renderer",
+    "test": "vitest run",
+    "pack": "npm run build && electron-builder --dir",
+    "predist": "node scripts/clean.mjs",
+    "dist": "npm run build && electron-builder --win portable --x64",
+    "clean": "node scripts/clean.mjs"
+  },
+  "build": {
+    "appId": "com.local.portactivechecker",
+    "productName": "Port Active Checker",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "package.json"
+    ],
+    "asar": true,
+    "compression": "maximum",
+    "npmRebuild": false,
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "PortActiveChecker-${version}-${arch}.${ext}"
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "lucide-react": "^0.468.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.5",
+    "vitest": "^2.1.8"
+  }
+}
